@@ -5,7 +5,7 @@ require "monotonic_time"
 LOG_DIR = "#{ENV['HOME']}/.stopwatch"
 
 def init_log
-  Dir.mkdir LOG_DIR
+  Dir.mkdir LOG_DIR unless Dir.exist? LOG_DIR
   log_filename = File.join(LOG_DIR, generate_log_filename)
   @log = File.open log_filename, "a"
 end
