@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require "monotonic_time"
+
+LOG_DIR = "#{ENV['HOME']}/.stopwatch"
+
+def init_log
+  Dir.mkdir LOG_DIR
+  log_filename = File.join(LOG_DIR, generate_log_filename)
+  @log = File.open log_filename, "a"
+end
+
+def measure_activity
+  puts "Press enter to start"
+  throw(:finish) unless gets
+  puts "Press enter after you've finished"
+
+  seconds_spent = MonotonicTime.measure do
+    throw(:finish) unless gets
+  end
+  record_time seconds_spent
+
+  puts "Spent seconds: #{seconds_spent}"
+  print "-"*80, "\n\n"
+end
+
+def record_time(seconds_spent)
+  @log.puts seconds_spent
+end
+
+def generate_log_filename
+  "#{Time.now.strftime "%Y-%m-%d"}.log"
+end
+
+begin
+  init_log
+
+  catch(:finish) do
+    loop { measure_activity }
+  end
+rescue
+  @log.close if @log
+end
