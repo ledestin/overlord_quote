@@ -38,6 +38,6 @@ begin
   catch(:finish) do
     loop { measure_activity }
   end
-rescue
+ensure
   @log.close if @log
 end
