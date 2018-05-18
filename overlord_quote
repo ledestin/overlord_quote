@@ -6,15 +6,15 @@ TOTAL_SENTENCES_TO_SHOW = 6
 
 def random_quote
   @sentences.slice(random_matching_sentence_index, TOTAL_SENTENCES_TO_SHOW)
-    .map { |sentence| prettify sentence }.join(" ")
+    .map { |sentence| remove_line_breaks sentence }.join(" ")
 end
 
 def random_matching_sentence_index
   @matching_sentence_indexes[rand @matching_sentence_indexes.size]
 end
 
-def prettify(match)
-  match.gsub("\n", " ").chomp
+def remove_line_breaks(sentence)
+  sentence.gsub("\n", " ").chomp
 end
 
 volume = ENV["OVERLORD_TEXT"]
