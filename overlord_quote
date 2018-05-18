@@ -21,8 +21,8 @@ def random_matching_sentence_index
   @matching_sentence_indexes[rand @matching_sentence_indexes.size]
 end
 
-def remove_line_breaks(sentence)
-  sentence.gsub("\n", " ").chomp
+def remove_line_breaks(text)
+  text.gsub("\n", " ").chomp
 end
 
 volume = ENV["OVERLORD_TEXT"]
