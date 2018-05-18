@@ -5,9 +5,8 @@
 TOTAL_SENTENCES_TO_SHOW = 6
 
 def random_quote
-  starting_sentence_index = random_matching_sentence_index
-  @sentences[starting_sentence_index...starting_sentence_index + TOTAL_SENTENCES_TO_SHOW].map { |quote| prettify quote }
-    .join(" ")
+  @sentences.slice(random_matching_sentence_index, TOTAL_SENTENCES_TO_SHOW)
+    .map { |sentence| prettify sentence }.join(" ")
 end
 
 def random_matching_sentence_index
