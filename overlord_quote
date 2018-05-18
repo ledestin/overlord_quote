@@ -5,10 +5,11 @@
 TOTAL_SENTENCES_TO_SHOW = 6
 
 def random_quote
-  format_quote fetch_quote(random_matching_sentence_index)
+  format_quote \
+    fetch_quote(starting_sentence_index: random_matching_sentence_index)
 end
 
-def fetch_quote(starting_sentence_index)
+def fetch_quote(starting_sentence_index:)
   @sentences.slice(starting_sentence_index, TOTAL_SENTENCES_TO_SHOW).join(" ")
 end
 
