@@ -5,7 +5,7 @@
 TOTAL_SENTENCES_TO_SHOW = 6
 
 def random_quote
-  quote_index = @quotes[rand @quotes.size]
+  quote_index = @matching_sentence_indexes[rand @matching_sentence_indexes.size]
   @sentences[quote_index...quote_index + TOTAL_SENTENCES_TO_SHOW].map { |quote| prettify quote }
     .join(" ")
 end
@@ -22,10 +22,11 @@ sentence_regex = /(?:^|\.\s*)(?:\s*)([A-Z][^.]+\.)/m
 text = File.read(volume)
 @sentences = text.scan(sentence_regex).flatten
 
-@quotes = []
+@matching_sentence_indexes = []
 @sentences.each_with_index do |sentence, i|
-  @quotes << i if search_term.nil? || sentence =~ /#{search_term}/i
+  @matching_sentence_indexes << i \
+    if search_term.nil? || sentence =~ /#{search_term}/i
 end
-puts "Total quotes: #{@quotes.size}"
+puts "Total matching_sentence_indexes: #{@matching_sentence_indexes.size}"
 
 puts random_quote
