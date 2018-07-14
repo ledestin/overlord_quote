@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+dir = ARGV.first
+
+anime_list = Dir.entries dir
+random_anime_index = rand(anime_list.size - 1)
+puts anime_list[random_anime_index]
