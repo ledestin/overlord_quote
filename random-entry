@@ -4,7 +4,7 @@ def load_entries(dirs)
   dirs.flat_map { |dir| Dir.entries dir }
 end
 
-dirs = ARGV
+dirs = ARGV.select { |arg| Dir.exist? arg }
 
 entries = load_entries(dirs)
 random_entry_index = rand(entries.size - 1)
