@@ -1,7 +1,11 @@
 #!/usr/bin/env ruby
 
-dir = ARGV.first
+def load_entries(dirs)
+  dirs.flat_map { |dir| Dir.entries dir }
+end
 
-anime_list = Dir.entries dir
+dirs = ARGV
+
+anime_list = load_entries(dirs)
 random_anime_index = rand(anime_list.size - 1)
 puts anime_list[random_anime_index]
