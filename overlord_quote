@@ -38,6 +38,6 @@ text = File.read(volume)
   @matching_sentence_indexes << i \
     if search_term.nil? || sentence =~ /#{search_term}/i
 end
-puts "Total matching_sentence_indexes: #{@matching_sentence_indexes.size}"
+puts "Total matching sentences: #{@matching_sentence_indexes.size}"
 
 puts random_quote
