@@ -19,15 +19,15 @@ class Sentences
   def each(&b)
     @sentences.each_with_index &b
   end
+
+  def fetch_quote(starting_id:)
+    @sentences.slice(starting_id, TOTAL_SENTENCES_TO_SHOW).join(" ")
+  end
 end
 
 def random_quote
   format_quote \
-    fetch_quote(starting_sentence_index: random_matching_sentence_index)
-end
-
-def fetch_quote(starting_sentence_index:)
-  @sentences.raw.slice(starting_sentence_index, TOTAL_SENTENCES_TO_SHOW).join(" ")
+    @sentences.fetch_quote(starting_id: random_matching_sentence_index)
 end
 
 def format_quote(quote)
