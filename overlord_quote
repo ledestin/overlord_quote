@@ -27,14 +27,14 @@ end
 
 def random_quote
   format_quote \
-    @sentences.quote(starting_id: random_matching_sentence_index)
+    @sentences.quote(starting_id: random_matching_sentence_id)
 end
 
 def format_quote(quote)
   remove_line_breaks quote
 end
 
-def random_matching_sentence_index
+def random_matching_sentence_id
   @matching_sentence_ids[rand @matching_sentence_ids.size]
 end
 
