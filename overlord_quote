@@ -12,10 +12,6 @@ class Sentences
     @sentences = text.scan(SENTENCE_REGEX).flatten
   end
 
-  def raw
-    @sentences
-  end
-
   def each(&b)
     @sentences.each_with_index &b
   end
