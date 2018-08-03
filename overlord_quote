@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-# This code's purpose is to serve as an example of technical debt.
-
 TOTAL_SENTENCES_TO_SHOW = 6
 
 def random_quote
