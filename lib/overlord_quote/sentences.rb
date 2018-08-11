@@ -10,6 +10,9 @@ module OverlordQuote
     SENTENCE_REGEX = /(?:^|\.\s*)(?:\s*)([A-Z][^.]+\.)/m
 
     include Enumerable
+    extend Forwardable
+
+    def_delegators :@sentences, :size, :[]
 
     def initialize(text_file)
       text = File.read text_file
