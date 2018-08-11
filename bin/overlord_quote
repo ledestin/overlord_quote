@@ -13,25 +13,39 @@ class App
 
   main do |search_term|
     after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
+    print_quote_from_previous_call = options[:last]
 
     volume = ENV["OVERLORD_TEXT"]
 
     @sentences = Sentences.new volume
+
+    if print_quote_from_previous_call
+      info "Ignoring search_term \"#{search_term}\", because --last given" \
+        if search_term
+
+      search_term, matching_sentence_id =
+        History.load_context_from_previous_call
+    end
+
     @matching_sentences = MatchingSentences.new search_term, @sentences
-    @random_matching_sentence = @matching_sentences.random_sentence
+    @matching_sentence = matching_sentence_id ?
+      @matching_sentences[matching_sentence_id] :
+      @matching_sentences.random_sentence
 
     puts "Total matching sentences: #{@matching_sentences.size}"
-    puts "Matching sentence id: #{@random_matching_sentence.id} (out of #{@matching_sentences.size})"
+    puts "Matching sentence id: #{@matching_sentence.id} (out of #{@matching_sentences.size})"
     puts
 
-    puts random_quote(after_sentences)
+    puts quote(after_sentences)
+
+    History.save_context search_term, @matching_sentence.id
   end
 
   # supplemental methods here
 
-  def self.random_quote(after_sentences)
+  def self.quote(after_sentences)
     @sentences.quote(
-      starting_sentence: @random_matching_sentence.orig_sentence,
+      starting_sentence: @matching_sentence.orig_sentence,
       after_sentences: after_sentences)
   end
 
@@ -42,6 +56,7 @@ class App
   arg :search_term, :optional
   on("-A", "--after-context=NUM", Integer,
           "Print NUM sentences after the matching sentence (DEFAULT: #{DEFAULT_AFTER_SENTENCES})")
+  on("--last", TrueClass, "Print the quote from the previous call")
 
   # Accept flags via:
   # on("--flag VAL","Some flag")
