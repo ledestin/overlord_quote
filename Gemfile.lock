@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    overlord_quote (0.1.0)
+    overlord_quote (0.0.1)
       activesupport
       methadone (~> 2.0.0)
 
