@@ -26,9 +26,10 @@ class Sentences
     @sentences.each &b
   end
 
-  def quote(starting_id:)
+  def quote(starting_sentence:)
     format_quote \
-      @sentences.slice(starting_id, TOTAL_SENTENCES_TO_SHOW).join(" ")
+      @sentences.slice(starting_sentence.id,
+                       TOTAL_SENTENCES_TO_SHOW).join(" ")
   end
 
   private
@@ -49,8 +50,8 @@ class MatchingSentence
     @id, @sentence = id, sentence
   end
 
-  def orig_id
-    @sentence.id
+  def orig_sentence
+    @sentence
   end
 end
 
@@ -84,11 +85,8 @@ class MatchingSentences
 end
 
 def random_quote
-  @sentences.quote(starting_id: random_matching_sentence_id)
-end
-
-def random_matching_sentence_id
-  @matching_sentences.random_sentence.orig_id
+  @sentences.quote(
+    starting_sentence: @matching_sentences.random_sentence.orig_sentence)
 end
 
 volume = ENV["OVERLORD_TEXT"]
