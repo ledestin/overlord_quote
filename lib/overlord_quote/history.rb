@@ -32,6 +32,6 @@ module OverlordQuote::History
   end
 
   def self.valid_context?(context)
-    context[:search_term].present? && context[:matching_sequence_id].present?
+    context[:matching_sequence_id].present?
   end
 end
