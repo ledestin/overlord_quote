@@ -1,3 +1,5 @@
+require "forwardable"
+
 module OverlordQuote
   class MatchingSentence
     attr_reader :id, :sentence

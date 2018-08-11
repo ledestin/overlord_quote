@@ -1,3 +1,5 @@
+require "forwardable"
+
 module OverlordQuote
   Sentence = Struct.new(:id, :text) do
     def to_s
