@@ -86,7 +86,7 @@ end
 
 def random_quote
   @sentences.quote(
-    starting_sentence: @matching_sentences.random_sentence.orig_sentence)
+    starting_sentence: @random_matching_sentence.orig_sentence)
 end
 
 volume = ENV["OVERLORD_TEXT"]
@@ -94,7 +94,10 @@ search_term = ARGV[0]
 
 @sentences = Sentences.new volume
 @matching_sentences = MatchingSentences.new search_term, @sentences
+@random_matching_sentence = @matching_sentences.random_sentence
 
 puts "Total matching sentences: #{@matching_sentences.size}"
+puts "Matching sentence id: #{@random_matching_sentence.id} (out of #{@matching_sentences.size})"
+puts
 
 puts random_quote
