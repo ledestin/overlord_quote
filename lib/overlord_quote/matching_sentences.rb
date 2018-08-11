@@ -18,21 +18,20 @@ module OverlordQuote
 
     def initialize(search_term, sentences)
       @search_term, @sentences = search_term, sentences
-      @matching_sentences = filter_sentences
-    end
-
-    def size
-      @matching_sentences.size
+      @matching_sentences = \
+          filter_sentences.each_with_index.map do |sentence, id|
+        MatchingSentence.new id, sentence
+      end
     end
 
     def random_sentence
-      MatchingSentence.new random_index, @matching_sentences[random_index]
+      @matching_sentences[random_index]
     end
 
     private
 
     def random_index
-      @random_index ||= rand @matching_sentences.size
+      rand @matching_sentences.size
     end
 
     def filter_sentences
