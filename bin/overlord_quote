@@ -7,14 +7,28 @@ require 'overlord_quote.rb'
 class App
   include Methadone::Main
   include Methadone::CLILogging
+  include OverlordQuote
 
-  main do # Add args you want: |like,so|
-    # your program code here
-    # You can access CLI options via
-    # the options Hash
+  main do |search_term|
+    volume = ENV["OVERLORD_TEXT"]
+
+    @sentences = Sentences.new volume
+    @matching_sentences = MatchingSentences.new search_term, @sentences
+    @random_matching_sentence = @matching_sentences.random_sentence
+
+    puts "Total matching sentences: #{@matching_sentences.size}"
+    puts "Matching sentence id: #{@random_matching_sentence.id} (out of #{@matching_sentences.size})"
+    puts
+
+    puts random_quote
   end
 
   # supplemental methods here
+
+  def self.random_quote
+    @sentences.quote(
+      starting_sentence: @random_matching_sentence.orig_sentence)
+  end
 
   # Declare command-line interface here
 
