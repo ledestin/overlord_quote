@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-TOTAL_SENTENCES_TO_SHOW = 6
-
 Sentence = Struct.new(:id, :text) do
   def to_s
     text
@@ -9,6 +7,7 @@ Sentence = Struct.new(:id, :text) do
 end
 
 class Sentences
+  TOTAL_SENTENCES_TO_SHOW = 6
   SENTENCE_REGEX = /(?:^|\.\s*)(?:\s*)([A-Z][^.]+\.)/m
 
   include Enumerable
