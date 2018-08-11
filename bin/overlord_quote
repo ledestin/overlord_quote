@@ -5,11 +5,15 @@ require 'methadone'
 require 'overlord_quote.rb'
 
 class App
+  DEFAULT_AFTER_SENTENCES = 5
+
   include Methadone::Main
   include Methadone::CLILogging
   include OverlordQuote
 
   main do |search_term|
+    after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
+
     volume = ENV["OVERLORD_TEXT"]
 
     @sentences = Sentences.new volume
@@ -20,14 +24,15 @@ class App
     puts "Matching sentence id: #{@random_matching_sentence.id} (out of #{@matching_sentences.size})"
     puts
 
-    puts random_quote
+    puts random_quote(after_sentences)
   end
 
   # supplemental methods here
 
-  def self.random_quote
+  def self.random_quote(after_sentences)
     @sentences.quote(
-      starting_sentence: @random_matching_sentence.orig_sentence)
+      starting_sentence: @random_matching_sentence.orig_sentence,
+      after_sentences: after_sentences)
   end
 
   # Declare command-line interface here
@@ -35,6 +40,8 @@ class App
   description "Print a random quote from Overlord light novel"
 
   arg :search_term, :optional
+  on("-A", "--after-context=NUM", Integer,
+          "Print NUM sentences after the matching sentence (DEFAULT: #{DEFAULT_AFTER_SENTENCES})")
 
   # Accept flags via:
   # on("--flag VAL","Some flag")

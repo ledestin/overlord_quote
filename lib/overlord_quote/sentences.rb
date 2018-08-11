@@ -6,7 +6,6 @@ module OverlordQuote
   end
 
   class Sentences
-    TOTAL_SENTENCES_TO_SHOW = 6
     SENTENCE_REGEX = /(?:^|\.\s*)(?:\s*)([A-Z][^.]+\.)/m
 
     include Enumerable
@@ -27,10 +26,10 @@ module OverlordQuote
       @sentences.each &b
     end
 
-    def quote(starting_sentence:)
+    def quote(starting_sentence:, after_sentences: )
       format_quote \
         @sentences.slice(starting_sentence.id,
-                         TOTAL_SENTENCES_TO_SHOW).join(" ")
+                         after_sentences + 1).join(" ")
     end
 
     private
