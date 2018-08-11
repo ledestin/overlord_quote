@@ -20,11 +20,9 @@ class App
     @sentences = Sentences.new volume
 
     if print_quote_from_previous_call
-      info "Ignoring search_term \"#{search_term}\", because --last given" \
-        if search_term
-
       search_term, matching_sentence_id =
         History.load_context_from_previous_call
+      info "Searching for \"#{search_term}\""
     end
 
     @matching_sentences = MatchingSentences.new search_term, @sentences
