@@ -17,7 +17,7 @@ module OverlordQuote::History
     IO.write PREVIOUS_CONTEXT_FILE, yaml
   end
 
-  def self.load_context_from_previous_call
+  def self.load_context_from_previous_run
     raise LoadError.new("No saved context found, please run without --last to create new context") \
       unless File.exists? PREVIOUS_CONTEXT_FILE
 

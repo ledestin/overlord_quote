@@ -13,15 +13,15 @@ class App
 
   main do |search_term|
     after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
-    print_quote_from_previous_call = options[:last]
+    print_quote_from_previous_run = options[:last]
 
     volume = ENV["OVERLORD_TEXT"]
 
     @sentences = Sentences.new volume
 
-    if print_quote_from_previous_call
+    if print_quote_from_previous_run
       search_term, matching_sentence_id =
-        History.load_context_from_previous_call
+        History.load_context_from_previous_run
       info "Searching for \"#{search_term}\""
     end
 
@@ -56,7 +56,7 @@ class App
   arg :search_term, :optional
   on("-A", "--after-context=NUM", Integer,
           "Print NUM sentences after the matching sentence (DEFAULT: #{DEFAULT_AFTER_SENTENCES})")
-  on("--last", TrueClass, "Print the quote from the previous call")
+  on("--last", TrueClass, "Print the quote from the previous run")
 
   # Accept flags via:
   # on("--flag VAL","Some flag")
