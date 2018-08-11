@@ -13,8 +13,10 @@ class Sentences
   end
 
   def each(&b)
-    @sentences.each_with_index &b
+    @sentences.each &b
   end
+
+  alias_method :each_with_id, :each_with_index
 
   def quote(starting_id:)
     @sentences.slice(starting_id, TOTAL_SENTENCES_TO_SHOW).join(" ")
@@ -44,7 +46,7 @@ search_term = ARGV[0]
 @sentences = Sentences.new volume
 
 @matching_sentence_ids = []
-@sentences.each do |sentence, id|
+@sentences.each_with_id do |sentence, id|
   @matching_sentence_ids << id \
     if search_term.nil? || sentence =~ /#{search_term}/i
 end
