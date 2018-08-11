@@ -14,7 +14,7 @@ module OverlordQuote
   class MatchingSentences
     extend Forwardable
 
-    def_delegators :@matching_sentences, :size, :[]
+    def_delegators :@matching_sentences, :empty?, :size, :[]
 
     def initialize(search_term, sentences)
       @search_term, @sentences = search_term, sentences

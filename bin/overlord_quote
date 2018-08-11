@@ -28,6 +28,8 @@ class App
     end
 
     @matching_sentences = MatchingSentences.new search_term, @sentences
+    raise "No matching sentences found" if @matching_sentences.empty?
+
     @matching_sentence = matching_sentence_id ?
       @matching_sentences[matching_sentence_id] :
       @matching_sentences.random_sentence
