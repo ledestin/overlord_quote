@@ -27,7 +27,18 @@ class Sentences
   end
 
   def quote(starting_id:)
-    @sentences.slice(starting_id, TOTAL_SENTENCES_TO_SHOW).join(" ")
+    format_quote \
+      @sentences.slice(starting_id, TOTAL_SENTENCES_TO_SHOW).join(" ")
+  end
+
+  private
+
+  def format_quote(quote)
+    remove_line_breaks quote
+  end
+
+  def remove_line_breaks(text)
+    text.gsub("\n", " ").chomp
   end
 end
 
@@ -73,20 +84,11 @@ class MatchingSentences
 end
 
 def random_quote
-  format_quote \
-    @sentences.quote(starting_id: random_matching_sentence_id)
-end
-
-def format_quote(quote)
-  remove_line_breaks quote
+  @sentences.quote(starting_id: random_matching_sentence_id)
 end
 
 def random_matching_sentence_id
   @matching_sentences.random_sentence.orig_id
-end
-
-def remove_line_breaks(text)
-  text.gsub("\n", " ").chomp
 end
 
 volume = ENV["OVERLORD_TEXT"]
