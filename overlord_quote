@@ -31,6 +31,18 @@ class Sentences
   end
 end
 
+class MatchingSentence
+  attr_reader :id, :sentence
+
+  def initialize(id, sentence)
+    @id, @sentence = id, sentence
+  end
+
+  def orig_id
+    @sentence.id
+  end
+end
+
 class MatchingSentences
   def initialize(search_term, sentences)
     @search_term, @sentences = search_term, sentences
@@ -41,11 +53,15 @@ class MatchingSentences
     @matching_sentences.size
   end
 
-  def raw
-    @matching_sentences
+  def random_sentence
+    MatchingSentence.new random_index, @matching_sentences[random_index]
   end
 
   private
+
+  def random_index
+    @random_index ||= rand @matching_sentences.size
+  end
 
   def filter_sentences
     return @sentences.dup unless @search_term
@@ -66,7 +82,7 @@ def format_quote(quote)
 end
 
 def random_matching_sentence_id
-  @matching_sentences.raw[rand @matching_sentences.size].id
+  @matching_sentences.random_sentence.orig_id
 end
 
 def remove_line_breaks(text)
