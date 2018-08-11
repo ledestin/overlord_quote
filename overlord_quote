@@ -31,6 +31,31 @@ class Sentences
   end
 end
 
+class MatchingSentences
+  def initialize(search_term, sentences)
+    @search_term, @sentences = search_term, sentences
+    @matching_sentences = filter_sentences
+  end
+
+  def size
+    @matching_sentences.size
+  end
+
+  def raw
+    @matching_sentences
+  end
+
+  private
+
+  def filter_sentences
+    return @sentences.dup unless @search_term
+
+    @sentences.find_all do |sentence|
+      sentence.text =~ /#{@search_term}/i
+    end
+  end
+end
+
 def random_quote
   format_quote \
     @sentences.quote(starting_id: random_matching_sentence_id)
@@ -41,7 +66,7 @@ def format_quote(quote)
 end
 
 def random_matching_sentence_id
-  @matching_sentences[rand @matching_sentences.size].id
+  @matching_sentences.raw[rand @matching_sentences.size].id
 end
 
 def remove_line_breaks(text)
@@ -52,12 +77,8 @@ volume = ENV["OVERLORD_TEXT"]
 search_term = ARGV[0]
 
 @sentences = Sentences.new volume
+@matching_sentences = MatchingSentences.new search_term, @sentences
 
-@matching_sentences = []
-@sentences.each do |sentence|
-  @matching_sentences << sentence \
-    if search_term.nil? || sentence.text =~ /#{search_term}/i
-end
 puts "Total matching sentences: #{@matching_sentences.size}"
 
 puts random_quote
