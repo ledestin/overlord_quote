@@ -2,6 +2,12 @@
 
 TOTAL_SENTENCES_TO_SHOW = 6
 
+Sentence = Struct.new(:id, :text) do
+  def to_s
+    text
+  end
+end
+
 class Sentences
   SENTENCE_REGEX = /(?:^|\.\s*)(?:\s*)([A-Z][^.]+\.)/m
 
@@ -10,13 +16,15 @@ class Sentences
   def initialize(text_file)
     text = File.read text_file
     @sentences = text.scan(SENTENCE_REGEX).flatten
+
+    @sentences = @sentences.each_with_index.map do |sentence, id|
+      Sentence.new id, sentence
+    end
   end
 
   def each(&b)
     @sentences.each &b
   end
-
-  alias_method :each_with_id, :each_with_index
 
   def quote(starting_id:)
     @sentences.slice(starting_id, TOTAL_SENTENCES_TO_SHOW).join(" ")
@@ -33,7 +41,7 @@ def format_quote(quote)
 end
 
 def random_matching_sentence_id
-  @matching_sentence_ids[rand @matching_sentence_ids.size]
+  @matching_sentences[rand @matching_sentences.size].id
 end
 
 def remove_line_breaks(text)
@@ -45,11 +53,11 @@ search_term = ARGV[0]
 
 @sentences = Sentences.new volume
 
-@matching_sentence_ids = []
-@sentences.each_with_id do |sentence, id|
-  @matching_sentence_ids << id \
-    if search_term.nil? || sentence =~ /#{search_term}/i
+@matching_sentences = []
+@sentences.each do |sentence|
+  @matching_sentences << sentence \
+    if search_term.nil? || sentence.text =~ /#{search_term}/i
 end
-puts "Total matching sentences: #{@matching_sentence_ids.size}"
+puts "Total matching sentences: #{@matching_sentences.size}"
 
 puts random_quote
