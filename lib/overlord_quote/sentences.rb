@@ -22,6 +22,8 @@ module OverlordQuote
 
     def initialize(sentences)
       @sentences = sentences.each_with_index.map do |sentence, id|
+        next sentence if sentence.is_a?(Sentence)
+
         Sentence.new id, sentence
       end
     end
