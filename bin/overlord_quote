@@ -15,8 +15,6 @@ class App
     after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
     print_quote_from_previous_run = options[:last]
 
-    novel_file_name = ENV["OVERLORD_TEXT"]
-
     @sentences = Sentences.new novel_file_name
 
     if print_quote_from_previous_run
@@ -42,6 +40,10 @@ class App
   end
 
   # supplemental methods here
+
+  def self.novel_file_name
+    ENV["OVERLORD_TEXT"]
+  end
 
   def self.quote(after_sentences)
     @sentences.quote(
