@@ -15,11 +15,13 @@ module OverlordQuote
 
     def_delegators :@sentences, :size, :[]
 
-    def initialize(text_file)
-      text = File.read text_file
-      @sentences = text.scan(SENTENCE_REGEX).flatten
+    def self.from_file(file_name)
+      text = File.read file_name
+      new text.scan(SENTENCE_REGEX).flatten
+    end
 
-      @sentences = @sentences.each_with_index.map do |sentence, id|
+    def initialize(sentences)
+      @sentences = sentences.each_with_index.map do |sentence, id|
         Sentence.new id, sentence
       end
     end

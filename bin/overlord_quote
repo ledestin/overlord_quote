@@ -15,7 +15,7 @@ class App
     after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
     print_quote_from_previous_run = options[:last]
 
-    @sentences = Sentences.new novel_file_name
+    @sentences = Sentences.from_file novel_file_name
 
     if print_quote_from_previous_run
       search_term, matching_sentence_id =
