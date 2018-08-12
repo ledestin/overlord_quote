@@ -18,12 +18,8 @@ module OverlordQuote
 
     def_delegators :@matching_sentences, :empty?, :size, :[]
 
-    def initialize(search_term, sentences)
-      @search_term, @sentences = search_term, sentences
-      @matching_sentences = \
-          filter_sentences.each_with_index.map do |sentence, id|
-        MatchingSentence.new id, sentence
-      end
+    def initialize(sentences)
+      @sentences = sentences
     end
 
     def random_sentence
@@ -34,14 +30,6 @@ module OverlordQuote
 
     def random_index
       rand @matching_sentences.size
-    end
-
-    def filter_sentences
-      return @sentences.dup unless @search_term
-
-      @sentences.find_all do |sentence|
-        sentence.text =~ /#{@search_term}/i
-      end
     end
   end
 end

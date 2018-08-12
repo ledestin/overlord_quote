@@ -32,10 +32,25 @@ module OverlordQuote
       @sentences.each &b
     end
 
+    def find_by_text(search_term)
+      return self unless search_term
+
+      matches = @sentences.find_all do |sentence|
+        sentence.text =~ /#{@search_term}/i
+      end
+      self.class.new matches
+    end
+
     def quote(starting_sentence:, after_sentences: )
       format_quote \
         @sentences.slice(starting_sentence.id,
                          after_sentences + 1).join(" ")
+    end
+
+    def to_matching
+      @sentences.each_with_index.map do |sentence, id|
+        MatchingSentence.new id, sentence
+      end
     end
 
     private

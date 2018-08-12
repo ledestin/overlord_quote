@@ -23,7 +23,7 @@ class App
       info "Searching for \"#{search_term}\""
     end
 
-    @matching_sentences = MatchingSentences.new search_term, @sentences
+    @matching_sentences = @sentences.find_by_text(search_term).to_matching
     raise "No matching sentences found" if @matching_sentences.empty?
 
     @matching_sentence = matching_sentence_id ?
