@@ -15,9 +15,9 @@ class App
     after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
     print_quote_from_previous_run = options[:last]
 
-    volume = ENV["OVERLORD_TEXT"]
+    novel_file_name = ENV["OVERLORD_TEXT"]
 
-    @sentences = Sentences.new volume
+    @sentences = Sentences.new novel_file_name
 
     if print_quote_from_previous_run
       search_term, matching_sentence_id =
