@@ -34,7 +34,7 @@ module OverlordQuote
 
     def find_by_text(search_term)
       @sentences.find_all do |sentence|
-        sentence.text =~ /#{@search_term}/i
+        sentence.text =~ /#{search_term}/i
       end
     end
 
