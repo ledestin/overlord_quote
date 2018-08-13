@@ -7,7 +7,7 @@ module OverlordQuote
     end
   end
 
-  class Sentences
+  class Novel
     SENTENCE_REGEX = /(?:^|\.\s*)(?:\s*)([A-Z][^.]+\.)/m
 
     include Enumerable
