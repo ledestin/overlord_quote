@@ -8,8 +8,6 @@ module OverlordQuote
   end
 
   class Novel
-    SENTENCE_REGEX = /(?:^|\.\s*)(?:\s*)([A-Z][^.]+\.)/m
-
     include Enumerable
     extend Forwardable
 
@@ -17,7 +15,7 @@ module OverlordQuote
 
     def self.from_file(file_name)
       text = File.read file_name
-      new text.scan(SENTENCE_REGEX).flatten
+      new text.split(/[.!?]+\s+/).map { |sentence| sentence + "." }
     end
 
     def initialize(sentences)
