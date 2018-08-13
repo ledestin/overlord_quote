@@ -6,12 +6,12 @@ module OverlordQuote::History
   RC_DIR = File.join ENV["HOME"], ".overlord_quote"
   PREVIOUS_CONTEXT_FILE = File.join RC_DIR, "context.yaml"
 
-  def self.save_context(search_term, matching_sequence_id)
+  def self.save_context(search_term, quoted_sentence_id)
     Dir.mkdir(RC_DIR) unless Dir.exists?(RC_DIR)
 
     yaml = {
       search_term: search_term,
-      matching_sequence_id: matching_sequence_id
+      quoted_sentence_id: quoted_sentence_id
     }.to_yaml
 
     IO.write PREVIOUS_CONTEXT_FILE, yaml
@@ -24,7 +24,7 @@ module OverlordQuote::History
     context = YAML.load IO.read(PREVIOUS_CONTEXT_FILE)
     check_context context
 
-    [context[:search_term], context[:matching_sequence_id]]
+    [context[:search_term], context[:quoted_sentence_id]]
   end
 
   def self.check_context(context)
@@ -32,6 +32,6 @@ module OverlordQuote::History
   end
 
   def self.valid_context?(context)
-    context[:matching_sequence_id].present?
+    context[:quoted_sentence_id].present?
   end
 end

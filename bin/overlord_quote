@@ -18,7 +18,7 @@ class App
     @novel = Novel.from_file novel_file_name
 
     if print_quote_from_previous_run
-      search_term, matching_sentence_id =
+      search_term, quoted_sentence_id =
         History.load_context_from_previous_run
       info "Searching for \"#{search_term}\""
     end
@@ -26,17 +26,17 @@ class App
     @matching_sentences = Excerpt.new @novel.find_by_text(search_term)
     raise "No matching sentences found" if @matching_sentences.empty?
 
-    @matching_sentence = print_quote_from_previous_run ?
-      @matching_sentences[matching_sentence_id] :
+    @quoted_sentence = print_quote_from_previous_run ?
+      @matching_sentences[quoted_sentence_id] :
       @matching_sentences.random_sentence
 
     puts "Total matching sentences: #{@matching_sentences.size}"
-    puts "Matching sentence id: #{@matching_sentence.id} (out of #{@matching_sentences.size})"
+    puts "Quoted sentence id: #{@quoted_sentence.id} (out of #{@matching_sentences.size})"
     puts
 
     puts quote(after_sentences)
 
-    History.save_context search_term, @matching_sentence.id
+    History.save_context search_term, @quoted_sentence.id
   end
 
   # supplemental methods here
@@ -47,7 +47,7 @@ class App
 
   def self.quote(after_sentences)
     @novel.quote(
-      starting_sentence: @matching_sentence.orig_sentence,
+      starting_sentence: @quoted_sentence.orig_sentence,
       after_sentences: after_sentences)
   end
 
