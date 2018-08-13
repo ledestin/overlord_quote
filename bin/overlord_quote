@@ -26,7 +26,7 @@ class App
     @matching_sentences = Excerpt.new @novel.find_by_text(search_term)
     raise "No matching sentences found" if @matching_sentences.empty?
 
-    @matching_sentence = matching_sentence_id ?
+    @matching_sentence = print_quote_from_previous_run ?
       @matching_sentences[matching_sentence_id] :
       @matching_sentences.random_sentence
 
