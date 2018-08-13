@@ -38,7 +38,7 @@ module OverlordQuote
       end
     end
 
-    def quote(starting_sentence:, before_sentences: 0, after_sentences: )
+    def quote(starting_sentence:, before_sentences: 0, after_sentences: 0)
       start_id = decrement_id(starting_sentence.id, before_sentences)
       end_id = starting_sentence.id + after_sentences
 
