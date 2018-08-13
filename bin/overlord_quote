@@ -5,6 +5,7 @@ require 'methadone'
 require 'overlord_quote.rb'
 
 class App
+  DEFAULT_BEFORE_SENTENCES = 0
   DEFAULT_AFTER_SENTENCES = 5
 
   include Methadone::Main
@@ -12,6 +13,7 @@ class App
   include OverlordQuote
 
   main do |search_term|
+    before_sentences = options.fetch(:B) { DEFAULT_BEFORE_SENTENCES }
     after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
     print_quote_from_previous_run = options[:last]
 
@@ -34,7 +36,7 @@ class App
     puts "Quoted sentence id: #{@quoted_sentence.id} (out of #{@matching_sentences.size})"
     puts
 
-    puts quote(after_sentences)
+    puts quote(before_sentences, after_sentences)
 
     History.save_context search_term, @quoted_sentence.id
   end
@@ -45,9 +47,10 @@ class App
     ENV["OVERLORD_TEXT"]
   end
 
-  def self.quote(after_sentences)
+  def self.quote(before_sentences, after_sentences)
     @novel.quote(
       starting_sentence: @quoted_sentence.orig_sentence,
+      before_sentences: before_sentences,
       after_sentences: after_sentences)
   end
 
@@ -58,6 +61,8 @@ class App
   arg :search_term, :optional
   on("-A", "--after-context=NUM", Integer,
           "Print NUM sentences after the matching sentence (DEFAULT: #{DEFAULT_AFTER_SENTENCES})")
+  on("-B", "--before-context=NUM", Integer,
+          "Print NUM sentences before the matching sentence (DEFAULT: #{DEFAULT_BEFORE_SENTENCES})")
   on("--last", TrueClass, "Print the quote from the previous run")
 
   # Accept flags via:

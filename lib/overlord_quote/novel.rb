@@ -38,13 +38,21 @@ module OverlordQuote
       end
     end
 
-    def quote(starting_sentence:, after_sentences: )
+    def quote(starting_sentence:, before_sentences: 0, after_sentences: )
+      start_id = decrement_id(starting_sentence.id, before_sentences)
+      end_id = starting_sentence.id + after_sentences
+
       format_quote \
-        @sentences.slice(starting_sentence.id,
-                         after_sentences + 1).join(" ")
+        @sentences.slice(start_id..end_id).join(" ")
     end
 
     private
+
+    def decrement_id(id, decrement_by)
+      new_id = id - decrement_by
+      new_id = 0 if new_id.negative?
+      new_id
+    end
 
     def format_quote(quote)
       remove_line_breaks quote
