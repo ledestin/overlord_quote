@@ -15,7 +15,7 @@ class App
     after_sentences = options.fetch(:A) { DEFAULT_AFTER_SENTENCES }
     print_quote_from_previous_run = options[:last]
 
-    @sentences = Novel.from_file novel_file_name
+    @novel = Novel.from_file novel_file_name
 
     if print_quote_from_previous_run
       search_term, matching_sentence_id =
@@ -23,7 +23,7 @@ class App
       info "Searching for \"#{search_term}\""
     end
 
-    @matching_sentences = Excerpt.new @sentences.find_by_text(search_term)
+    @matching_sentences = Excerpt.new @novel.find_by_text(search_term)
     raise "No matching sentences found" if @matching_sentences.empty?
 
     @matching_sentence = matching_sentence_id ?
@@ -46,7 +46,7 @@ class App
   end
 
   def self.quote(after_sentences)
-    @sentences.quote(
+    @novel.quote(
       starting_sentence: @matching_sentence.orig_sentence,
       after_sentences: after_sentences)
   end
